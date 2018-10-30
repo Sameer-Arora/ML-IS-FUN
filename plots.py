@@ -90,7 +90,7 @@ def linear_plot(x,y_1,y2,lx,ly ,title,i,log=False ):
         plt.xscale('log');
 
     plt.title('Simple line plot')
-    plt.legend(['Train Error', 'Test Error'], loc='upper left')
+    plt.legend(['Train Error', 'Test Error'], loc='upper right')
     plt.title(title)
     plt.draw()
 

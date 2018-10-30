@@ -114,8 +114,20 @@ class Neuralnet():
         self.m_t.append( np.zeros(w.shape) )
         self.v_t.append( np.zeros(w.shape) )
 
+    # function for batch norm forward_pass
+    def batchnorm_forward(X, gamma, beta):
+        mu = np.mean(X, axis=0)
+        var = np.var(X, axis=0)
+
+        X_norm = (X - mu) / np.sqrt(var + 1e-8)
+        out = gamma * X_norm + beta
+
+        cache = (X, X_norm, mu, var, gamma, beta)
+
+        return out, cache, mu, var
+
     # function for forward_pass to compute the L2 loss
-    def forward_pass(self, X, cache):
+    def forward_pass(self, X, cache,dropout):
 
         a_prev = X;
         cache["A"].append(a_prev);
@@ -125,12 +137,13 @@ class Neuralnet():
             b=self.bias[i];
             z = np.matmul(a_prev, W) + b ;
 
-            # Dropout training, notice the scaling of 1/p
-            u1 = np.random.binomial(1, self.keep_probs[i], size=z.shape) / self.keep_probs[i];
-            # print(u1)
-            z = np.multiply(z, u1);
+            if(dropout):
+                # Dropout training, notice the scaling of 1/p
+                u1 = np.random.binomial(1, self.keep_probs[i], size=z.shape) / self.keep_probs[i];
+                # print(u1)
+                z = np.multiply(z, u1);
+                cache["u"].append(u1);
 
-            cache["u"].append(u1);
             a = activate(z,self.activa_layers[i]);
             # print(i, a.shape)
             a_prev = a;
@@ -162,54 +175,43 @@ class Neuralnet():
             return - np.sum(np.matmul(Y.T, np.log(pred)) + np.matmul((1 - Y).T, np.log(1 - pred))) / Y.shape[0];
 
     # function to compute the gradients flow in the network
-    def backward_pass(self, X, Y, Y_, cache):
+    def backward_pass(self, X, Y, Y_, cache,dropout):
 
         grads_W = [];
         grads_b = [];
 
         a_prev = cache["A"][-2];
-        u1 = cache["u"][-1];
-        W = self.weights[-1];
-        b = self.bias[-1];
         da_prev = (Y_ - Y);
 
         diff=derivative_activate(Y_,self.activa_layers[-1]);
         dz = np.multiply(diff, da_prev);
-        # adding droput
-        dz = np.multiply(dz, u1);
+        if(dropout):
+            # adding droput
+            u1 = cache["u"][-1];
+            dz = np.multiply(dz, u1);
+
         dw = np.matmul(a_prev.T, dz);
         db = np.sum(dz,0).reshape(1,-1);
-
-
-        assert (dw.shape == W.shape), "dw wrong!"
-        assert (db.shape == b.shape), "db wrong!"
-        assert ( dz.shape == Y_.shape ),"dz wrong!"
 
         grads_b.append(db);
         grads_W.append(dw);
 
         for i in range( len(cache["A"]) - 2 , 0, -1):
-            # print(i)
             a = cache["A"][i]
-            u1 = cache["u"][i-1];
             a_prev = cache["A"][i-1]
             dz_prev = dz
-            # print("dz ",dz_prev)
 
             W = self.weights[i]
             diff = derivative_activate(a, self.activa_layers[i-1]);
-            # print( self.activa_layers[i-1] , diff.shape )
-
-            assert (diff.shape == np.matmul(dz_prev,W.T).shape), "dw wrong!"
-
             dz = np.multiply(diff, np.matmul(dz_prev,W.T));
-            # adding droput
-            dz = np.multiply(dz, u1);
+
+            if (dropout):
+                # adding droput
+                u1 = cache["u"][i - 1];
+                dz = np.multiply(dz, u1);
 
             dw = np.matmul(a_prev.T, dz);
             db = np.sum(dz,0).reshape(1,-1);
-            assert (dw.shape == self.weights[i-1].shape), "dw wrong!"
-            assert (db.shape == self.bias[i-1].shape), "db wrong!"
 
             grads_b.append(db);
             grads_W.append(dw);
@@ -235,14 +237,17 @@ class Neuralnet():
 
         else:
             for i in range(len(self.layer_dims) - 1):
-                self.weights[i] = self.weights[i] - (learn_rate ) * grads_W[-1 - i] ;
-                self.bias[i] = self.bias[i] - (learn_rate ) * grads_b[-1 - i];
+                self.weights[i] = self.weights[i] - (learn_rate/64 ) * grads_W[-1 - i] ;
+                self.bias[i] = self.bias[i] - (learn_rate//64 ) * grads_b[-1 - i];
 
-    def train(self,training_f_X,training_f_Y,test_X,test_Y,learning_rate,mini_batch=64,no_iterations=1000,stad=True,opt="adam"):
+    def train(self,training_f_X,training_f_Y,test_X,test_Y,learning_rate,mini_batch=64,no_iterations=1000,stad=True,dropout=False,opt=""):
 
         losses = [];
         te_losses = [];
         out=[];
+
+        print("Start to train with:-" + opt)
+
         ## number of epochs
         for j in range(no_iterations):
             loss = 0;
@@ -273,35 +278,11 @@ class Neuralnet():
 
                 cache = {"A": [], "Z": [], "dZ": [], "u": []}
 
-                Y_ = self.forward_pass(X_b, cache);
+                Y_ = self.forward_pass(X_b, cache,dropout);
                 t_l = self.compute_loss(Y_b, Y_);
-                #     print("Local Loss:-  " + str(t_l));
-                #     print(i," ",X_b)
-
                 loss += t_l;
-
-                # if (abs(prev_loss - loss) < 0.1 ** 15):
-                #     break;
-                # if (i % 200 == 0):
-                    # print("ini-",self.weights)
-
-                    # print("ini-",self.weights)
-                grads_W, grads_b = self.backward_pass(X_b, Y_b, Y_, cache);
-
-
+                grads_W, grads_b = self.backward_pass(X_b, Y_b, Y_, cache,dropout);
                 self.update_weights(grads_W, grads_b, learning_rate ,opt);
-
-                # if (i % 200 == 0):
-                    # print("x",X_b[0:5,:])
-                    # print("Y",Y_b[0:5])
-                    # print("Y_", Y_[0:5])
-                    # print("weis_b",self.weights[0:1])
-                    # print("grads_",grads_W[0:2])
-                    # print("grads_b",grads_b[0:2])
-
-                # Y_ = model.forward_pass(X, cache);
-                # print(Y_)
-                # print( "New Loss:-  " + str(model.compute_loss(Y, Y_)) );
 
             loss /= training_X.shape[0];
 
