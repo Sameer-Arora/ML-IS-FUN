@@ -66,6 +66,10 @@ class Neuralnet():
     v_t = []
     iters = 0
 
+    ## for bnorm
+    gamma=[]
+    beta=[]
+
     def __init__(self):
         self.layer_dims = [];
         self.activa_layers = [];
@@ -74,16 +78,18 @@ class Neuralnet():
         self.keep_probs = [];
         self.m_t= [];
         self.v_t= [];
+        self.gamma= [];
+        self.beta= [];
 
     #function to dynamically add new layers to network.
-    def add_layer(self, li, input_dim=0, keep_prob=1, activation='sigmoid'):
+    def add_layer(self, li, input_dim=0, keep_prob=1, activation='sigmoid',type=0):
         # print(len(self.layer_dims))
         if (len(self.layer_dims) == 0 and input_dim != 0):
             self.activa_layers.append(activation)
             self.layer_dims.append(input_dim);
             self.layer_dims.append(li);
             self.keep_probs.append(keep_prob);
-            self.init_weights();
+            self.init_weights(type);
 
         elif ( len(self.layer_dims)!= 0 and input_dim != 0 ):
 
@@ -93,7 +99,7 @@ class Neuralnet():
             self.activa_layers.append(activation)
             self.layer_dims.append(li);
             self.keep_probs.append(keep_prob);
-            self.init_weights();
+            self.init_weights(type);
 
     # function to initialze the network weights and biasses.
     def init_weights(self,type=0):
@@ -127,7 +133,7 @@ class Neuralnet():
         return out, cache, mu, var
 
     # function for forward_pass to compute the L2 loss
-    def forward_pass(self, X, cache,dropout):
+    def forward_pass(self, X, cache,dropout,bnorm):
 
         a_prev = X;
         cache["A"].append(a_prev);
@@ -143,6 +149,9 @@ class Neuralnet():
                 # print(u1)
                 z = np.multiply(z, u1);
                 cache["u"].append(u1);
+
+            if(bnorm):
+                z, bn1_cache, mu, var = batchnorm_forward(z, self.gamma[i], self.beta[i]);
 
             a = activate(z,self.activa_layers[i]);
             # print(i, a.shape)

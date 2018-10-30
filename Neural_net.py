@@ -46,10 +46,11 @@ def Experiment1():
     learning_rate=0.01;
     print("Learning-Rate:- ", learning_rate," Batch_Size:- ", mini_batch)
 
-    losses,te_losses=model.train(training_f_X,training_f_Y,test_X,test_Y,learning_rate,mini_batch,no_iterations)
+    losses,te_losses,out=model.train(training_f_X,training_f_Y,test_X,test_Y,learning_rate,mini_batch,no_iterations)
     title="Exp1:- Batch size="+str(mini_batch)+" Learning Rate="+str(learning_rate)
     plots.linear_plot([x for x in range(len(losses))],losses,te_losses,"Iterations","Losses" ,title,1)
     plt.savefig( "../"+title + ".png")
+    np.savetxt("../1.csv",np.array(out),delimiter="|" )
     #plt.show()
 
 ## Experiment2
@@ -71,17 +72,12 @@ def Experiment2():
         learning_rate=0.01;
         print("Learning-Rate:- ", learning_rate," Batch_Size:- ", mini_batch)
 
-        losses,te_losses=model.train(training_f_X,training_f_Y,test_X,test_Y,learning_rate,mini_batch,no_iterations)
+        losses,te_losses,out=model.train(training_f_X,training_f_Y,test_X,test_Y,learning_rate,mini_batch,no_iterations)
         print(losses)
         title = "Exp2:- Batch size=" + str(mini_batch) + " Learning Rate=" + str(learning_rate)
         plots.linear_plot([x for x in range(len(losses))],losses,te_losses,"Iterations","Losses", title ,1+i )
         plt.savefig( "../"+title + ".png")
-
-        di = {"Iterations": [x for x in range(len(losses))], "Train Losses": losses, "Test Losses": te_losses};
-        df = pd.DataFrame()
-        df = df.append(di, ignore_index=True)
-
-        df.to_csv("../2-"+i+ ".csv", sep='|')
+        np.savetxt("../2-"+ str(i) +".csv", np.array(out), delimiter="|")
 
     #plt.show()
 
@@ -214,4 +210,27 @@ def adam():
     plt.savefig( "../"+title + ".png")
     #plt.show()
 
-adam()
+## adding extra layers with xaviers intitlization
+def Experiment():
+
+    mini_batch = 64;
+    keep_prob = 1;
+    # create model
+    model = Neuralnet()
+    model.add_layer (  512  ,1024 ,keep_prob=keep_prob,activation="sigmoid",type=1)
+    model.add_layer (  64   ,keep_prob=keep_prob ,activation="sigmoid",type=1)
+    model.add_layer (  32   ,keep_prob=keep_prob ,activation="sigmoid",type=1)
+    model.add_layer (  Y.shape[1],keep_prob=keep_prob ,activation="no",type=1)
+
+    # Compile model
+    no_iterations=5000;
+    learning_rate=0.01;
+    print("Learning-Rate:- ", learning_rate," Batch_Size:- ", mini_batch)
+
+    losses,te_losses,out=model.train(training_f_X,training_f_Y,test_X,test_Y,learning_rate,mini_batch,no_iterations)
+    title="Exp1:- Batch size="+str(mini_batch)+" Learning Rate="+str(learning_rate)
+    plots.linear_plot([x for x in range(len(losses))],losses,te_losses,"Iterations","Losses" ,title,1)
+    plt.savefig( "../"+title + ".png")
+    np.savetxt("../1.csv",np.array(out),delimiter="|" )
+    #plt.show()
+
