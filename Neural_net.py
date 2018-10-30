@@ -1,14 +1,8 @@
-import copy
-import csv
 from matplotlib import pyplot as plt
 import os
-import pandas as pd
 from model import Neuralnet
 import pandas as pd
-import cv2 as cv
-import math
 import numpy as np
-from helper import standardize,random_samples
 import plots
 
 # fix random seed for reproducibility
@@ -104,7 +98,7 @@ def Experiment3():
     model.add_layer (  Y.shape[1],keep_prob=keep_prob ,activation="no")
 
     # Compile model
-    no_iterations=1000;
+    no_iterations=1;
     learning_rate=0.001;
     print("Learning-Rate:- ", learning_rate," Batch_Size:- ", mini_batch)
 

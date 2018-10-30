@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="828fb290-a8f0-4154-8f6c-1f2d8f01635c" name="Default Changelist" comment="" />
+    <list default="true" id="828fb290-a8f0-4154-8f6c-1f2d8f01635c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.~lock.2.csv#" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Neural_net.py" beforeDir="false" afterPath="$PROJECT_DIR$/Neural_net.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/model.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,14 +29,14 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="Python Console" value="198" />
-          <entry key="py" value="6044" />
+          <entry key="py" value="6085" />
           <entry key="vmoptions" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="PLAIN_TEXT" value="4" />
-          <entry key="Python" value="6203" />
+          <entry key="Python" value="6244" />
           <entry key="SQL" value="39" />
         </counts>
       </usages-collector>
@@ -54,14 +60,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Neural_net.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="369">
-              <caret line="212" lean-forward="true" selection-start-line="212" selection-end-line="212" />
-              <folding>
-                <element signature="e#0#11#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="90">
+              <caret line="5" selection-start-line="5" selection-end-line="5" />
             </state>
           </provider>
         </entry>
@@ -79,39 +82,15 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../ASS2/logistic_reg.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="121">
-              <caret line="95" column="50" lean-forward="true" selection-start-line="95" selection-start-column="50" selection-end-line="95" selection-end-column="50" />
-              <folding>
-                <element signature="e#0#19#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../ASS2/plot.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="143" selection-start-line="143" selection-end-line="144" />
-              <folding>
-                <element signature="e#0#36#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="159">
-              <caret line="239" column="119" selection-start-line="239" selection-start-column="119" selection-end-line="239" selection-end-column="119" />
+            <state relative-caret-position="529">
+              <caret line="302" column="14" lean-forward="true" selection-start-line="302" selection-start-column="14" selection-end-line="302" selection-end-column="14" />
               <folding>
                 <element signature="e#42#53#0" expanded="true" />
-                <marker date="1540877884298" expanded="true" signature="6095:6101" ph="..." />
-                <marker date="1540877884298" expanded="true" signature="6164:7143" ph="..." />
-                <marker date="1540877884298" expanded="true" signature="11239:11407" ph="..." />
+                <marker date="1540879659018" expanded="true" signature="6108:6114" ph="..." />
+                <marker date="1540879659018" expanded="true" signature="6180:7158" ph="..." />
+                <marker date="1540879659018" expanded="true" signature="10848:11036" ph="..." />
               </folding>
             </state>
           </provider>
@@ -189,6 +168,9 @@
       <find>ax.</find>
     </findStrings>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
@@ -200,8 +182,8 @@
         <option value="$PROJECT_DIR$/plots.py" />
         <option value="$APPLICATION_CONFIG_DIR$/pycharm64.vmoptions" />
         <option value="$PROJECT_DIR$/plot_cs.py" />
-        <option value="$PROJECT_DIR$/Neural_net.py" />
         <option value="$PROJECT_DIR$/model.py" />
+        <option value="$PROJECT_DIR$/Neural_net.py" />
       </list>
     </option>
   </component>
@@ -228,6 +210,7 @@
       </profile-state>
     </entry>
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator currentView="Scope" currentSubView="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope" proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -279,7 +262,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.Unnamed (1)">
+  <component name="RunManager" selected="Python.Unnamed">
     <configuration name="Unnamed (1)" type="PythonConfigurationType" factoryName="Python">
       <module name="l3" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -358,15 +341,15 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.4261057" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.399137" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.42702702" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39891893" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.32901832" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32864866" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.32901832" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info anchor="bottom" id="Python Console" order="10" weight="0.32901832" />
+      <window_info anchor="bottom" id="Python Console" order="10" weight="0.32864866" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -499,22 +482,22 @@
     <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../ASS2/plot.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="143" selection-start-line="143" selection-end-line="144" />
-          <folding>
-            <element signature="e#0#36#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../ASS2/logistic_reg.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="121">
           <caret line="95" column="50" lean-forward="true" selection-start-line="95" selection-start-column="50" selection-end-line="95" selection-end-column="50" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../ASS2/plot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="143" selection-start-line="143" selection-end-line="144" />
+          <folding>
+            <element signature="e#0#36#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -529,26 +512,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Neural_net.py">
+    <entry file="file://$PROJECT_DIR$/model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="369">
-          <caret line="212" lean-forward="true" selection-start-line="212" selection-end-line="212" />
+        <state relative-caret-position="529">
+          <caret line="302" column="14" lean-forward="true" selection-start-line="302" selection-start-column="14" selection-end-line="302" selection-end-column="14" />
           <folding>
-            <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#42#53#0" expanded="true" />
+            <marker date="1540879659018" expanded="true" signature="6108:6114" ph="..." />
+            <marker date="1540879659018" expanded="true" signature="6180:7158" ph="..." />
+            <marker date="1540879659018" expanded="true" signature="10848:11036" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/model.py">
+    <entry file="file://$PROJECT_DIR$/Neural_net.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="159">
-          <caret line="239" column="119" selection-start-line="239" selection-start-column="119" selection-end-line="239" selection-end-column="119" />
-          <folding>
-            <element signature="e#42#53#0" expanded="true" />
-            <marker date="1540877884298" expanded="true" signature="6095:6101" ph="..." />
-            <marker date="1540877884298" expanded="true" signature="6164:7143" ph="..." />
-            <marker date="1540877884298" expanded="true" signature="11239:11407" ph="..." />
-          </folding>
+        <state relative-caret-position="90">
+          <caret line="5" selection-start-line="5" selection-end-line="5" />
         </state>
       </provider>
     </entry>

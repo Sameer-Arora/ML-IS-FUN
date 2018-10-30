@@ -1,11 +1,12 @@
 ## file to implement the neural networks.
 import math
-import cv2 as cv;
 import numpy as np;
 import scipy;
+
 import copy;
 from helper import standardize,random_samples
 from scipy.special import expit
+from scipy.misc import imread
 
 def activate(X,func):
     # sigmoid activation
@@ -216,7 +217,7 @@ class Neuralnet():
         return grads_W, grads_b;
 
 
-    def update_weights(self, grads_W, grads_b, learn_rate=0.1,opt):
+    def update_weights(self, grads_W, grads_b, learn_rate=0.1,opt=""):
         if(opt=="adam"):
             alpha = 0.01
             beta_1 = 0.9
@@ -229,7 +230,7 @@ class Neuralnet():
                 self.v_t[i] = beta_2 * self.v_t[i] + (1 - beta_2) *( grads_W[-1 - i] *  grads_W[-1 - i] )  # updates the moving averages of the squared gradient
                 m_cap = self.m_t[i] / (1 - (beta_1 ** self.iters))  # calculates the bias-corrected estimates
                 v_cap = self.v_t[i] / (1 - (beta_2 ** self.iters ))  # calculates the bias-corrected estimates
-                self.weights[i] = self.weights[i] - (learn_rate * m_cap ) /(math.sqrt(v_cap) + epsilon) ;
+                self.weights[i] = self.weights[i] - ( learn_rate) * m_cap /( np.sqrt(v_cap) + epsilon) ;
                 self.bias[i] = self.bias[i] - (learn_rate ) * grads_b[-1 - i];
 
         else:
@@ -261,7 +262,7 @@ class Neuralnet():
 
                 ind = 0
                 for inp_file in I_b:
-                    X_b[ind, :] = cv.cvtColor(cv.imread(inp_file), cv.COLOR_BGR2GRAY).flatten();
+                    X_b[ind, :] = imread(inp_file, flatten=True).flatten();
                     # normaliize the input.
                     if(stad):
                         X_b[ind, :] = ( X_b[ind, :] - min(X_b[ind, :] ) ) / ( max(X_b[ind, :]) -min(X_b[ind, :])  )  ;
@@ -290,15 +291,6 @@ class Neuralnet():
 
                 self.update_weights(grads_W, grads_b, learning_rate ,opt);
 
-                # if (i % 50 == 0):
-                #     Y1 = self.predict(X_b);
-                #     t_1=self.compute_loss(Y_b, Y1);
-                #     # print("ik-",self.weights)
-                #     # print("ik-",self.weights)
-                #     print("prevV_l",t_l)
-                #     print("new_l",t_1)
-                #     # print("weis_",grads_W)
-
                 # if (i % 200 == 0):
                     # print("x",X_b[0:5,:])
                     # print("Y",Y_b[0:5])
@@ -317,7 +309,7 @@ class Neuralnet():
             n=test_Y.shape[0];
             X_b = np.zeros((n, 1024));
             for inp_file in test_X:
-                X_b[ind, :] = cv.cvtColor(cv.imread(inp_file), cv.COLOR_BGR2GRAY).flatten();
+                X_b[ind, :] = imread(inp_file, flatten=True).flatten();
                 # standardize the input.
                 if (stad):
                     X_b[ind, :] = (X_b[ind, :] - min(X_b[ind, :])) / (max(X_b[ind, :]) - min(X_b[ind, :]));
@@ -336,43 +328,43 @@ class Neuralnet():
 
         return losses,te_losses,out;
 
-    def get_weights(self):
-        re=[]
-        for w in self.weights:
-            re.append(w.flatten())
+    # def get_weights(self):
+    #     re=[]
+    #     for w in self.weights:
+    #         re.append(w.flatten())
+    #
+    #     for w in self.bias:
+    #         re.append(w.flatten())
+    #
+    #     return np.asarray(re);
 
-        for w in self.bias:
-            re.append(w.flatten())
-
-        return np.asarray(re);
-
-    def check_gradient(self, training_X, epsilon=1e-4):
-
-
-        # assign the weight_vector as the network topology
-        initial_weights = np.array(self.get_weights())
-        numeric_gradient = np.zeros(initial_weights.shape)
-        perturbed = np.zeros(initial_weights.shape)
-        n_samples = float(training_X.shape[0])
-
-        print("[gradient check] Running gradient check...")
-
-        for i in range(len( self.weights ) ):
-            perturbed[i] = epsilon
-            right_side = self.error(initial_weights + perturbed, training_X )
-            left_side = self.error(initial_weights - perturbed, training_X )
-            numeric_gradient[i] = (right_side - left_side) / (2 * epsilon)
-            perturbed[i] = 0
-        # end loop
-
-        # Calculate the analytic gradient
-        analytic_gradient = self.gradient(self.get_weights(), training_data, training_targets, cost_function)
-
-        # Compare the numeric and the analytic gradient
-        ratio = np.linalg.norm(analytic_gradient - numeric_gradient) / np.linalg.norm(analytic_gradient + numeric_gradient)
-
-        if not ratio < 1e-6:
-            print( "[gradient check] WARNING: The numeric gradient check failed! Analytical gradient differed by %g from the numerical." )\
-
-        return ratio
-    # end
+    # def check_gradient(self, training_X, epsilon=1e-4):
+    #
+    #
+    #     # assign the weight_vector as the network topology
+    #     initial_weights = np.array(self.get_weights())
+    #     numeric_gradient = np.zeros(initial_weights.shape)
+    #     perturbed = np.zeros(initial_weights.shape)
+    #     n_samples = float(training_X.shape[0])
+    #
+    #     print("[gradient check] Running gradient check...")
+    #
+    #     for i in range(len( self.weights ) ):
+    #         perturbed[i] = epsilon
+    #         right_side = self.error(initial_weights + perturbed, training_X )
+    #         left_side = self.error(initial_weights - perturbed, training_X )
+    #         numeric_gradient[i] = (right_side - left_side) / (2 * epsilon)
+    #         perturbed[i] = 0
+    #     # end loop
+    #
+    #     # Calculate the analytic gradient
+    #     analytic_gradient = self.gradient(self.get_weights(), training_data, training_targets, cost_function)
+    #
+    #     # Compare the numeric and the analytic gradient
+    #     ratio = np.linalg.norm(analytic_gradient - numeric_gradient) / np.linalg.norm(analytic_gradient + numeric_gradient)
+    #
+    #     if not ratio < 1e-6:
+    #         print( "[gradient check] WARNING: The numeric gradient check failed! Analytical gradient differed by %g from the numerical." )\
+    #
+    #     return ratio
+    # # end
